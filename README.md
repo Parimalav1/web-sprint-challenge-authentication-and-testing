@@ -25,12 +25,25 @@ Commit your code regularly and meaningfully. This helps both you (in case you ev
 Be prepared to demonstrate your understanding of this week's concepts by answering questions on the following topics. You might prepare by writing down your own answers before hand.
 
 1. Differences between using _sessions_ or _JSON Web Tokens_ for authentication.
+1. Session data is stored: in memory on the server either via files or in a database. 
+JWT: token-based authentication is stateless and stored in local-storage.
+2.  RESTful API Services: Since cookies can only be used for the domain from which they originated, they aren’t much help for APIs on different domains than the application. Using JWTs for authentication in this case ensures that the RESTful API is stateless.
+3. Performance: less for JWT and more for sessions and cookies as JWT has lot of data to be sent.
+4.  Downstream Services: each server has its own scheme for cookies, there is a lot of resistance to flow, so cookies don’t flow easily to the downstream servers. JSON web tokens again makes these a breeze!
+<!-- JSON Web Tokens (JWT) are a way to transmit information between parties as a JSON Object. JWTs basically consist of three parts separated by a ., the header, payload and signature. -->
 
 2. What does `bcrypt` do to help us store passwords in a secure manner.
+Bcryptjs features include:
+1. hashing  password .
+2. implements salting both manually and automatically.
+3. accumulative hashing rounds(Having an algorithm that hashes the information multiple times (rounds))
 
 3. How are unit tests different from integration and end-to-end testing.
+Unit tests are fast, less expensive, they’re simple to write and execute, and they’re the preferred tool for test driven development (TDD) and behavior driven development (BDD).
+A good unit test is independent, focused, and, tests only one unit of code(on one behavior or functionality).
 
 4. How _Test Driven Development_ changes the way we write applications and tests.
+Testing happens along with product development. Testing is more pure and tests the functionality of the product. Developers are also writing tests(unit testing). Testing is more modular - each piece pf porduct is tested not just the whole product.
 
 You are expected to be able to answer questions in these areas. Your responses contribute to your Sprint Challenge grade.
 
