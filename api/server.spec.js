@@ -29,9 +29,12 @@ describe("server", () => {
     });
 
     describe("Post /register", () => {
+
         it("should register users", async () => {
+            await db("users").truncate();
             await request(server).post('/api/auth/register').send({
-                name: "Sid"
+                username: "Sidhari",
+                password: "password"
             });
             const users = await db('users');
             expect(users).toHaveLength(1);
@@ -39,18 +42,21 @@ describe("server", () => {
 
         it("should respond with json", async () => {
                 const res = await request(server).post("/api/auth/register").send({
-                    name: "Sid"
+                    username: "Sidhari"
                 })
 
                 expect(res.type).toMatch(/json/i);
         });
     });
 
+    let token = '';
     describe("Post /login", () => {
         it("should login users", async () => {
-            await (await request(server).post('/api/auth/login')).setEncoding({
-                name: 'Sid'
+            let res = await request(server).post('/api/auth/login').send({
+                username: 'Sidhari',
+                password: 'password'
             });
+            token = res.body.token;
             const users = await db('users');
             expect(users).toHaveLength(1);
         });
@@ -58,10 +64,10 @@ describe("server", () => {
         it('responds with json', done => {
             request(server)
                 .post('/api/auth/login')
-                .send({ name: 'Sid' })
+                .send({ username: 'Sidhari', password: 'password' })
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
-                .expect(201)
+                .expect(200)
                 .end(function (err, res) {
                     if (err) return done(err);
                     done();
@@ -69,17 +75,17 @@ describe("server", () => {
         });
     });
 
-    // describe('Get /jokes', () => {
-    //     it('get jokes', () => {
-    //         return request(server).get(/api/jokes)
-    //             .then(res => {
-    //                 expect(res.status).toBe(200);
-    //             })
-    //     });
+    describe('Get /jokes', () => {
+        it('get jokes', () => {
+            return request(server).get('/api/jokes').set('Authorization', token)
+                .then(res => {
+                    expect(res.status).toEqual(200);
+                })
+        });
 
-    //     it('jokes should be in json format', () => {
-    //         return request(server).get(/api/jokes)
-    //         expect(res.type).toMatch(/json/i);
-    //     })
-    // });
+        it('jokes should be in json format', () => {
+            return request(server).get('/api/jokes')
+            expect(res.type).toMatch(/json/i);
+        })
+    });
 });

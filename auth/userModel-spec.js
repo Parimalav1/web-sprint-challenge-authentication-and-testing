@@ -9,7 +9,8 @@ describe('UserModel', () => {
     describe('insert users', () => {
         it('should add users', () => {
             await Users.insert({
-                name: 'Sid'
+                username: 'Sidhari',
+                password: 'password'
             });
             const users = await db('users')
             expect(users).toHaveLength(1);
